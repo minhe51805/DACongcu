@@ -3,6 +3,10 @@ require_once '../includes/config.php';
 require_once '../includes/auth.php';
 
 // Redirect if already logged in
+if ($auth->isLoggedIn()) {
+    header('Location: ' . BASE_URL . '/dashboard.php');
+    exit;
+}
 
 $errors = [];
 $success = '';
@@ -20,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result['success']) {
             $success = $result['message'];
             // Redirect after successful login
-            $redirectUrl = $_GET['redirect'] ?? 'http://localhost:3000/dashboard.php';
+            $redirectUrl = $_GET['redirect'] ?? BASE_URL . '/dashboard.php';
             header('Location: ' . $redirectUrl);
             exit;
         } else {
@@ -122,11 +126,11 @@ include '../includes/header.php';
                             <span>Hoặc đăng nhập với</span>
                         </div>
                         <div class="social-buttons">
-                            <a class="social-btn google-btn" href="<?= 'http://localhost:3000/auth/oauth_google.php' ?>">
+                            <a class="social-btn google-btn" href="<?= BASE_URL ?>auth/oauth_google.php">
                                 <i class="fab fa-google"></i>
                                 Google
                             </a>
-                            <a class="social-btn facebook-btn" href="<?= 'http://localhost:3000/auth/oauth_facebook.php' ?>">
+                            <a class="social-btn facebook-btn" href="<?= BASE_URL ?>auth/oauth_facebook.php">
                                 <i class="fab fa-facebook-f"></i>
                                 Facebook
                             </a>
@@ -139,7 +143,7 @@ include '../includes/header.php';
                             <a href="register.php" class="register-link">Đăng ký ngay</a>
                         </p>
                         <p>
-                            <a href="<?= 'http://localhost:3000' ?>" class="back-home-link">
+                            <a href="<?= BASE_URL ?>" class="back-home-link">
                                 <i class="fas fa-arrow-left me-1"></i>Về trang chủ
                             </a>
                         </p>
