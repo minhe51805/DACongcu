@@ -1,0 +1,93 @@
+# PHP
+*.log
+*.sql
+*.mysql
+vendor/
+composer.phar
+composer.lock
+
+# Config files với thông tin nhạy cảm
+includes/config.php
+config/mail.php
+.env
+.env.local
+
+# Database backups
+*.sql
+database.sql
+jeysqdeq_wag (2).sql
+bankao.txt
+
+# Uploads & User Content
+uploads/
+images/uploads/
+assets/uploads/
+
+# Cache & Temporary
+cache/
+tmp/
+temp/
+*.cache
+*.tmp
+
+# IDE & Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+*.swp
+*.swo
+*~
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Node (nếu có frontend build tools)
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Logs
+logs/
+*.log
+error_log
+access_log
+
+# Session files
+sessions/
+*.sess
+
+# PHPMailer OAuth Tokens (nếu lưu local)
+*.token
+oauth_token.php
+
+# Testing
+test_*.php
+debug_*.php
+phpunit.xml
+.phpunit.result.cache
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Analysis files (do AI tạo)
+*_Analysis.md
+DACongcu_Analysis.md
+
+# Sensitive payment configs
+momo_*.log
+vnpay_*.log
+payment_debug.log
+
