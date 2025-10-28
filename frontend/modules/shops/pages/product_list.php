@@ -419,7 +419,70 @@ function updatePerPage() {
     window.location.search = urlParams.toString();
 }
 
-
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle add to cart buttons
+    const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+    const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+    
+    addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            const productName = this.dataset.productName;
+            
+            // Add loading state
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Đang thêm...';
+            this.disabled = true;
+            
+            // AJAX request to add to cart
+            fetch('add_to_cart.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `product_id=${productId}&quantity=1`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update cart count in header
+                    const cartBadge = document.querySelector('.cart-count');
+                    if (cartBadge) {
+                        cartBadge.textContent = data.cart_count;
+                    }
+                    
+                    // Show success modal
+                    cartModal.show();
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
+            })
+            .finally(() => {
+                // Restore button state
+                this.innerHTML = originalText;
+                this.disabled = false;
+            });
+        });
+    });
+    
+    // Update price display when inputs change
+    const minPriceInput = document.getElementById('min_price');
+    const maxPriceInput = document.getElementById('max_price');
+    const priceDisplay = document.getElementById('price-display');
+    
+    function updatePriceDisplay() {
+        const minPrice = parseInt(minPriceInput.value) || 0;
+        const maxPrice = parseInt(maxPriceInput.value) || <?= $price_range['max_price'] ?>;
+        priceDisplay.textContent = `${minPrice.toLocaleString()}đ - ${maxPrice.toLocaleString()}đ`;
+    }
+    
+    minPriceInput.addEventListener('input', updatePriceDisplay);
+    maxPriceInput.addEventListener('input', updatePriceDisplay);
+});
 </script>
 
 <?php include __DIR__ . '/../../../common/components/footer.php'; ?>
